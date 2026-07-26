@@ -1,0 +1,50 @@
+[project]
+name = "vertex-nurture"
+version = "0.1.0"
+description = "Backend API for the Vertex Nurture child development platform."
+requires-python = ">=3.13"
+
+dependencies = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "pydantic-settings",
+    "sqlalchemy",
+    "asyncpg",
+    "alembic",
+    "redis",
+    "celery",
+    "argon2-cffi",
+    "pyjwt",
+    "python-multipart",
+    "structlog",
+    "boto3",
+    "httpx",
+    "pwdlib[argon2]>=0.3.0",
+    "python-dotenv>=1.2.2",
+    "email-validator",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "ruff",
+    "black",
+    "isort",
+    "mypy",
+    "pre-commit"
+]
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
