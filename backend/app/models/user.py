@@ -1,3 +1,5 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
 from enum import Enum
 
 from sqlalchemy import Boolean
@@ -8,6 +10,10 @@ from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
+
+if TYPE_CHECKING:
+    from app.models.refresh_token import RefreshToken
+    from app.models.user_profile import UserProfile
 
 
 class UserRole(str, Enum):
@@ -56,8 +62,15 @@ class User(BaseModel):
         nullable=False,
     )
 
-    refresh_tokens = relationship(
+    refresh_tokens: Mapped[list["RefreshToken"]] = relationship(
         "RefreshToken",
         back_populates="user",
+        cascade="all, delete-orphan",
+    )
+
+    profile: Mapped["UserProfile"] = relationship(
+        "UserProfile",
+        back_populates="user",
+        uselist=False,
         cascade="all, delete-orphan",
     )

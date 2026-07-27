@@ -53,22 +53,6 @@ def custom_openapi(app: FastAPI):
         routes=app.routes,
     )
 
-    openapi_schema.setdefault("components", {})
-    openapi_schema["components"]["securitySchemes"] = {
-        "BearerAuth": {
-            "type": "http",
-            "scheme": "bearer",
-            "bearerFormat": "JWT",
-        }
-    }
-
-    # Add global Bearer authentication
-    openapi_schema["security"] = [
-        {
-            "BearerAuth": [],
-        }
-    ]
-
     app.openapi_schema = openapi_schema
 
     return app.openapi_schema

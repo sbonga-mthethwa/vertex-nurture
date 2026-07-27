@@ -4,9 +4,15 @@ from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.dependencies.database import get_database
-from app.repositories import UserRepository
 
-from app.repositories import RefreshTokenRepository
+from app.repositories import (
+    RefreshTokenRepository,
+    UserRepository,
+)
+
+from app.repositories.profile_repository import (
+    ProfileRepository,
+)
 
 
 async def get_user_repository(
@@ -33,3 +39,16 @@ async def get_refresh_token_repository(
     """
 
     return RefreshTokenRepository(db)
+
+
+async def get_profile_repository(
+    db: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> ProfileRepository:
+    """
+    Provides a ProfileRepository.
+    """
+
+    return ProfileRepository(db)
