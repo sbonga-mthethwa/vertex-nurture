@@ -31,6 +31,10 @@ from app.services.system_service import (
     SystemService,
 )
 
+from app.repositories.child_repository import ChildRepository
+from app.services.child_service import ChildService
+from app.dependencies.repositories import get_child_repository
+
 
 def get_system_service() -> SystemService:
     """
@@ -92,3 +96,18 @@ async def get_profile_service(
     Provides ProfileService.
     """
     return ProfileService(repository)
+
+
+async def get_child_service(
+    repository: Annotated[
+        ChildRepository,
+        Depends(get_child_repository),
+    ],
+) -> ChildService:
+    """
+    Provides ChildService.
+    """
+
+    return ChildService(
+        repository,
+    )

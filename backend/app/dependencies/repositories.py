@@ -14,6 +14,7 @@ from app.repositories.profile_repository import (
     ProfileRepository,
 )
 
+from app.repositories.child_repository import ChildRepository
 
 async def get_user_repository(
     db: Annotated[
@@ -52,3 +53,16 @@ async def get_profile_repository(
     """
 
     return ProfileRepository(db)
+
+
+async def get_child_repository(
+    session: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> ChildRepository:
+    """
+    Provides ChildRepository.
+    """
+
+    return ChildRepository(session)

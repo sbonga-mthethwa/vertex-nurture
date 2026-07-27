@@ -14,6 +14,7 @@ from app.models.base import BaseModel
 if TYPE_CHECKING:
     from app.models.refresh_token import RefreshToken
     from app.models.user_profile import UserProfile
+    from app.models.child import Child
 
 
 class UserRole(str, Enum):
@@ -72,5 +73,10 @@ class User(BaseModel):
         "UserProfile",
         back_populates="user",
         uselist=False,
+        cascade="all, delete-orphan",
+    )
+
+    children: Mapped[list["Child"]] = relationship(
+        back_populates="parent",
         cascade="all, delete-orphan",
     )

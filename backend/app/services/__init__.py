@@ -4,6 +4,8 @@ from .jwt_service import JWTService
 from .password_service import PasswordService
 from .refresh_token_service import RefreshTokenService
 from .user_service import UserService
+from .child_service import ChildService
+
 
 __all__ = [
     "AuthenticationService",
@@ -12,4 +14,5 @@ __all__ = [
     "PasswordService",
     "RefreshTokenService",
     "UserService",
+    "ChildService",
 ]
