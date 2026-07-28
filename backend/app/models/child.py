@@ -5,6 +5,8 @@ from enum import Enum
 from typing import TYPE_CHECKING
 from uuid import UUID
 
+from decimal import Decimal
+
 from sqlalchemy import (
     Boolean,
     Date,
@@ -21,6 +23,7 @@ from app.models.base import BaseModel
 
 if TYPE_CHECKING:
     from app.models.user import User
+    from app.models.growth_record import GrowthRecord
 
 
 class ChildGender(str, Enum):
@@ -70,12 +73,12 @@ class Child(BaseModel):
         default=ChildGender.UNKNOWN,
     )
 
-    birth_weight: Mapped[float | None] = mapped_column(
+    birth_weight: Mapped[Decimal | None] = mapped_column(
         Numeric(5, 2),
         nullable=True,
     )
 
-    birth_height: Mapped[float | None] = mapped_column(
+    birth_height: Mapped[Decimal | None] = mapped_column(
         Numeric(5, 2),
         nullable=True,
     )
@@ -103,4 +106,9 @@ class Child(BaseModel):
 
     parent: Mapped["User"] = relationship(
         back_populates="children",
+    )
+
+    growth_records: Mapped[list["GrowthRecord"]] = relationship(
+        back_populates="child",
+        cascade="all, delete-orphan",
     )

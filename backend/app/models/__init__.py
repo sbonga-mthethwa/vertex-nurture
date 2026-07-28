@@ -3,6 +3,8 @@ from .refresh_token import RefreshToken
 from .user import User
 from .user_profile import UserProfile
 from .child import Child
+from app.models.growth_record import GrowthRecord
+
 
 __all__ = [
     "BaseModel",
@@ -10,4 +12,5 @@ __all__ = [
     "RefreshToken",
     "UserProfile",
     "Child",
+    "GrowthRecord",
 ]

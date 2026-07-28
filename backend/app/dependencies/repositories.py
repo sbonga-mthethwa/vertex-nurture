@@ -9,12 +9,16 @@ from app.repositories import (
     RefreshTokenRepository,
     UserRepository,
 )
-
+from app.repositories.child_repository import (
+    ChildRepository,
+)
+from app.repositories.growth_record_repository import (
+    GrowthRecordRepository,
+)
 from app.repositories.profile_repository import (
     ProfileRepository,
 )
 
-from app.repositories.child_repository import ChildRepository
 
 async def get_user_repository(
     db: Annotated[
@@ -56,13 +60,26 @@ async def get_profile_repository(
 
 
 async def get_child_repository(
-    session: Annotated[
+    db: Annotated[
         AsyncSession,
         Depends(get_database),
     ],
 ) -> ChildRepository:
     """
-    Provides ChildRepository.
+    Provides a ChildRepository.
     """
 
-    return ChildRepository(session)
+    return ChildRepository(db)
+
+
+async def get_growth_record_repository(
+    db: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> GrowthRecordRepository:
+    """
+    Provides a GrowthRecordRepository.
+    """
+
+    return GrowthRecordRepository(db)

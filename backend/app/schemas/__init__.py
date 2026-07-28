@@ -1,8 +1,8 @@
 from .auth import (
     LoginResponse,
+    LogoutRequest,
     RefreshRequest,
     TokenResponse,
-    LogoutRequest,
 )
 
 from .profile import (
@@ -18,17 +18,24 @@ from .user import (
 )
 
 from .child import (
+    ChildResponse,
     CreateChildRequest,
     UpdateChildRequest,
-    ChildResponse,
 )
+
+from .growth_record import (
+    CreateGrowthRecordRequest,
+    GrowthRecordResponse,
+    UpdateGrowthRecordRequest,
+)
+
 
 __all__ = [
     # Authentication
     "LoginResponse",
+    "LogoutRequest",
     "RefreshRequest",
     "TokenResponse",
-    "LogoutRequest",
 
     # Users
     "CreateUserRequest",
@@ -44,4 +51,9 @@ __all__ = [
     "CreateChildRequest",
     "UpdateChildRequest",
     "ChildResponse",
+
+    # Growth Records
+    "CreateGrowthRecordRequest",
+    "UpdateGrowthRecordRequest",
+    "GrowthRecordResponse",
 ]

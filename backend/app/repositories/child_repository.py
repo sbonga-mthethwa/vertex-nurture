@@ -37,6 +37,25 @@ class ChildRepository(BaseRepository[Child]):
 
         return result.scalar_one_or_none()
 
+    async def get_by_id_and_parent(
+        self,
+        child_id: UUID,
+        parent_id: UUID,
+    ) -> Child | None:
+        """
+        Returns a child belonging to a specific parent.
+        """
+
+        result = await self.db.execute(
+            select(Child).where(
+                Child.id == child_id,
+                Child.parent_id == parent_id,
+                Child.is_active.is_(True),
+            )
+        )
+
+        return result.scalar_one_or_none()
+
     async def get_by_parent(
         self,
         parent_id: UUID,
