@@ -28,10 +28,7 @@ class CreateGrowthRecordRequest(BaseModel):
         decimal_places=2,
     )
 
-    notes: str | None = Field(
-        default=None,
-        max_length=1000,
-    )
+    notes: str | None = None
 
 
 class UpdateGrowthRecordRequest(BaseModel):
@@ -59,10 +56,7 @@ class UpdateGrowthRecordRequest(BaseModel):
         decimal_places=2,
     )
 
-    notes: str | None = Field(
-        default=None,
-        max_length=1000,
-    )
+    notes: str | None = None
 
 
 class GrowthRecordResponse(BaseModel):
@@ -88,7 +82,6 @@ class GrowthRecordResponse(BaseModel):
     notes: str | None
 
     created_at: datetime
-
     updated_at: datetime
 
     model_config = ConfigDict(

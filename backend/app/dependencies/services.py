@@ -30,6 +30,9 @@ from app.services import (
 from app.services.child_service import (
     ChildService,
 )
+from app.services.growth_analysis_service import (
+    GrowthAnalysisService,
+)
 from app.services.growth_record_service import (
     GrowthRecordService,
 )
@@ -47,6 +50,14 @@ def get_system_service() -> SystemService:
     """
 
     return SystemService()
+
+
+def get_growth_analysis_service() -> GrowthAnalysisService:
+    """
+    Provides GrowthAnalysisService.
+    """
+
+    return GrowthAnalysisService()
 
 
 async def get_user_service(
@@ -94,8 +105,8 @@ async def get_authentication_service(
     """
 
     return AuthenticationService(
-        repository=repository,
-        refresh_token_service=refresh_token_service,
+        repository,
+        refresh_token_service,
     )
 
 
@@ -138,6 +149,10 @@ async def get_growth_record_service(
         ChildRepository,
         Depends(get_child_repository),
     ],
+    growth_analysis: Annotated[
+        GrowthAnalysisService,
+        Depends(get_growth_analysis_service),
+    ],
 ) -> GrowthRecordService:
     """
     Provides GrowthRecordService.
@@ -146,4 +161,5 @@ async def get_growth_record_service(
     return GrowthRecordService(
         repository=repository,
         child_repository=child_repository,
+        growth_analysis=growth_analysis,
     )
