@@ -9,10 +9,9 @@ from app.schemas.growth_evaluation import (
 )
 
 
-class GrowthAnalysisResult(BaseModel):
+class GrowthAnalysisResponse(BaseModel):
     """
-    Represents the complete WHO growth analysis for a child
-    at a single measurement date.
+    Response model for a complete WHO growth analysis.
     """
 
     measurement_date: date

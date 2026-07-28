@@ -36,6 +36,9 @@ from app.services.growth_analysis_service import (
 from app.services.growth_record_service import (
     GrowthRecordService,
 )
+from app.services.growth_standard_service import (
+    GrowthStandardService,
+)
 from app.services.profile_service import (
     ProfileService,
 )
@@ -43,6 +46,16 @@ from app.services.system_service import (
     SystemService,
 )
 
+###############################################################################
+# Singleton Services
+###############################################################################
+
+_growth_standard_service = GrowthStandardService()
+
+
+###############################################################################
+# System Services
+###############################################################################
 
 def get_system_service() -> SystemService:
     """
@@ -52,13 +65,36 @@ def get_system_service() -> SystemService:
     return SystemService()
 
 
-def get_growth_analysis_service() -> GrowthAnalysisService:
+###############################################################################
+# Growth Intelligence Services
+###############################################################################
+
+def get_growth_standard_service() -> GrowthStandardService:
     """
-    Provides GrowthAnalysisService.
+    Provides the singleton WHO Growth Standards service.
     """
 
-    return GrowthAnalysisService()
+    return _growth_standard_service
 
+
+def get_growth_analysis_service(
+    growth_standard_service: Annotated[
+        GrowthStandardService,
+        Depends(get_growth_standard_service),
+    ],
+) -> GrowthAnalysisService:
+    """
+    Provides the GrowthAnalysisService.
+    """
+
+    return GrowthAnalysisService(
+        growth_standard_service=growth_standard_service,
+    )
+
+
+###############################################################################
+# User Services
+###############################################################################
 
 async def get_user_service(
     repository: Annotated[
@@ -139,6 +175,10 @@ async def get_child_service(
         repository,
     )
 
+
+###############################################################################
+# Growth Record Service
+###############################################################################
 
 async def get_growth_record_service(
     repository: Annotated[

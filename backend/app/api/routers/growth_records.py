@@ -16,6 +16,10 @@ from app.services.growth_record_service import (
     GrowthRecordService,
 )
 
+from app.schemas.growth_analysis import (
+    GrowthAnalysisResult,
+)
+
 router = APIRouter(
     prefix="/children/{child_id}/growth-records",
     tags=["Growth Records"],
@@ -124,6 +128,35 @@ async def get_growth_record(
         message="Growth record retrieved successfully.",
     )
 
+@router.get("/{record_id}/analysis")
+async def analyze_growth_record(
+    child_id: UUID,
+    record_id: UUID,
+    current_user: Annotated[
+        User,
+        Depends(get_current_user),
+    ],
+    service: Annotated[
+        GrowthRecordService,
+        Depends(get_growth_record_service),
+    ],
+):
+    """
+    Returns a complete WHO growth analysis for a growth record.
+    """
+
+    analysis = await service.analyze_growth_record(
+        child_id=child_id,
+        record_id=record_id,
+        parent_id=current_user.id,
+    )
+
+    return success_response(
+        data=GrowthAnalysisResult.model_validate(
+            analysis,
+        ),
+        message="Growth analysis completed successfully.",
+    )
 
 @router.put(
     "/{record_id}",

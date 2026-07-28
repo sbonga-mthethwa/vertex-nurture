@@ -4,6 +4,9 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from app.schemas.growth_analysis_response import (
+    GrowthAnalysisResponse,
+)
 
 class CreateGrowthRecordRequest(BaseModel):
     """
