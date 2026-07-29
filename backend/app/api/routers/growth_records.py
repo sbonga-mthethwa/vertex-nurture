@@ -10,6 +10,9 @@ from app.models.user import User
 from app.schemas.growth_analysis import (
     GrowthAnalysisResult,
 )
+from app.schemas.growth_history import (
+    GrowthHistoryResponse,
+)
 from app.schemas.growth_record import (
     CreateGrowthRecordRequest,
     GrowthRecordResponse,
@@ -21,11 +24,6 @@ from app.schemas.growth_trend import (
 from app.services.growth_record_service import (
     GrowthRecordService,
 )
-
-from app.schemas.growth_history import (
-    GrowthHistoryResponse,
-)
-
 
 router = APIRouter(
     prefix="/children/{child_id}/growth-records",
@@ -102,6 +100,80 @@ async def list_growth_records(
     )
 
 
+###########################################################################
+# STATIC ROUTES MUST COME BEFORE /{record_id}
+###########################################################################
+
+
+@router.get(
+    "/history",
+    response_model=None,
+)
+async def get_growth_history(
+    child_id: UUID,
+    current_user: Annotated[
+        User,
+        Depends(get_current_user),
+    ],
+    service: Annotated[
+        GrowthRecordService,
+        Depends(get_growth_record_service),
+    ],
+):
+    """
+    Returns the complete chronological growth history.
+    """
+
+    history = await service.get_growth_history(
+        child_id=child_id,
+        parent_id=current_user.id,
+    )
+
+    return success_response(
+        data=GrowthHistoryResponse.model_validate(
+            history,
+        ),
+        message="Growth history retrieved successfully.",
+    )
+
+
+@router.get(
+    "/trends",
+    response_model=None,
+)
+async def get_growth_trends(
+    child_id: UUID,
+    current_user: Annotated[
+        User,
+        Depends(get_current_user),
+    ],
+    service: Annotated[
+        GrowthRecordService,
+        Depends(get_growth_record_service),
+    ],
+):
+    """
+    Returns longitudinal growth trends.
+    """
+
+    trends = await service.get_growth_trends(
+        child_id=child_id,
+        parent_id=current_user.id,
+    )
+
+    return success_response(
+        data=GrowthTrendResponse.model_validate(
+            trends,
+        ),
+        message="Growth trends retrieved successfully.",
+    )
+
+
+###########################################################################
+# DYNAMIC ROUTES
+###########################################################################
+
+
 @router.get(
     "/{record_id}",
     response_model=None,
@@ -153,7 +225,7 @@ async def analyze_growth_record(
     ],
 ):
     """
-    Returns a complete WHO growth analysis for a growth record.
+    Returns WHO growth analysis.
     """
 
     analysis = await service.analyze_growth_record(
@@ -169,69 +241,6 @@ async def analyze_growth_record(
         message="Growth analysis completed successfully.",
     )
 
-
-@router.get(
-    "/trends",
-    response_model=None,
-)
-async def get_growth_trends(
-    child_id: UUID,
-    current_user: Annotated[
-        User,
-        Depends(get_current_user),
-    ],
-    service: Annotated[
-        GrowthRecordService,
-        Depends(get_growth_record_service),
-    ],
-):
-    """
-    Returns growth trends for a child.
-    """
-
-    trends = await service.get_growth_trends(
-        child_id=child_id,
-        parent_id=current_user.id,
-    )
-
-    return success_response(
-        data=GrowthTrendResponse.model_validate(
-            trends,
-        ),
-        message="Growth trends retrieved successfully.",
-    )
-
-@router.get(
-    "/history",
-    response_model=None,
-)
-async def get_growth_history(
-    child_id: UUID,
-    current_user: Annotated[
-        User,
-        Depends(get_current_user),
-    ],
-    service: Annotated[
-        GrowthRecordService,
-        Depends(get_growth_record_service),
-    ],
-):
-    """
-    Returns the complete chronological growth history
-    for a child.
-    """
-
-    history = await service.get_growth_history(
-        child_id=child_id,
-        parent_id=current_user.id,
-    )
-
-    return success_response(
-        data=GrowthHistoryResponse.model_validate(
-            history,
-        ),
-        message="Growth history retrieved successfully.",
-    )
 
 @router.put(
     "/{record_id}",

@@ -54,7 +54,7 @@ class GrowthAlert(BaseModel):
 
     title: str
 
-    message: str
+    description: str
 
 
 class GrowthTrendPoint(BaseModel):

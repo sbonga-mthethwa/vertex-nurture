@@ -28,16 +28,20 @@ from app.schemas.growth_trend import (
     GrowthTrendResponse,
 )
 
-from app.schemas.growth_trend import (
-    GrowthTrendResponse,
-)
-
 from app.services.growth_history_service import (
     GrowthHistoryService,
 )
 
 from app.schemas.growth_history import (
     GrowthHistoryResponse,
+)
+
+from app.services.growth_chart_service import (
+    GrowthChartService,
+)
+
+from app.schemas.growth_chart import (
+    GrowthChartsResponse,
 )
 
 
@@ -53,12 +57,14 @@ class GrowthRecordService:
         growth_analysis: GrowthAnalysisService,
         growth_trend: GrowthTrendService,
         growth_history: GrowthHistoryService,
+        growth_chart: GrowthChartService,
     ) -> None:
         self.repository = repository
         self.child_repository = child_repository
         self.growth_analysis = growth_analysis
         self.growth_trend = growth_trend
         self.growth_history = growth_history
+        self.growth_chart = growth_chart
 
     ####################################################################
     # Helpers
@@ -261,7 +267,7 @@ class GrowthRecordService:
             child_id,
         )
 
-        return self.growth_trend.analyse(
+        return self.growth_trend.analyze_growth_trends(
             child=child,
             growth_records=growth_records,
         )
@@ -287,6 +293,29 @@ class GrowthRecordService:
         return self.growth_history.build_history(
             child=child,
             growth_records=records,
+        )
+
+    async def get_growth_charts(
+        self,
+        child_id: UUID,
+        parent_id: UUID,
+    ) -> GrowthChartsResponse:
+        """
+        Returns WHO Growth Chart datasets for a child.
+        """
+
+        child = await self._get_child(
+            child_id,
+            parent_id,
+        )
+
+        growth_records = await self.repository.get_by_child(
+            child_id,
+        )
+
+        return self.growth_chart.build_growth_charts(
+            child=child,
+            growth_records=growth_records,
         )
 
     async def update_growth_record(
