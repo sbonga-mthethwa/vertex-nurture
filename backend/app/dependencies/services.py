@@ -39,12 +39,20 @@ from app.services.growth_record_service import (
 from app.services.growth_standard_service import (
     GrowthStandardService,
 )
+from app.services.growth_trend_service import (
+    GrowthTrendService,
+)
 from app.services.profile_service import (
     ProfileService,
 )
 from app.services.system_service import (
     SystemService,
 )
+
+from app.services.growth_history_service import (
+    GrowthHistoryService,
+)
+
 
 ###############################################################################
 # Singleton Services
@@ -91,6 +99,21 @@ def get_growth_analysis_service(
         growth_standard_service=growth_standard_service,
     )
 
+
+def get_growth_trend_service() -> GrowthTrendService:
+    """
+    Provides the GrowthTrendService.
+    """
+
+    return GrowthTrendService()
+
+
+def get_growth_history_service() -> GrowthHistoryService:
+    """
+    Provides GrowthHistoryService.
+    """
+
+    return GrowthHistoryService()
 
 ###############################################################################
 # User Services
@@ -193,6 +216,14 @@ async def get_growth_record_service(
         GrowthAnalysisService,
         Depends(get_growth_analysis_service),
     ],
+    growth_trend: Annotated[
+        GrowthTrendService,
+        Depends(get_growth_trend_service),
+    ],
+    growth_history: Annotated[
+        GrowthHistoryService,
+        Depends(get_growth_history_service),
+    ],
 ) -> GrowthRecordService:
     """
     Provides GrowthRecordService.
@@ -202,4 +233,6 @@ async def get_growth_record_service(
         repository=repository,
         child_repository=child_repository,
         growth_analysis=growth_analysis,
+        growth_trend=growth_trend,
+        growth_history=growth_history,
     )

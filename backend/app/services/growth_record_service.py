@@ -20,6 +20,26 @@ from app.services.growth_analysis_service import (
     GrowthAnalysisService,
 )
 
+from app.services.growth_trend_service import (
+    GrowthTrendService,
+)
+
+from app.schemas.growth_trend import (
+    GrowthTrendResponse,
+)
+
+from app.schemas.growth_trend import (
+    GrowthTrendResponse,
+)
+
+from app.services.growth_history_service import (
+    GrowthHistoryService,
+)
+
+from app.schemas.growth_history import (
+    GrowthHistoryResponse,
+)
+
 
 class GrowthRecordService:
     """
@@ -31,10 +51,14 @@ class GrowthRecordService:
         repository: GrowthRecordRepository,
         child_repository: ChildRepository,
         growth_analysis: GrowthAnalysisService,
+        growth_trend: GrowthTrendService,
+        growth_history: GrowthHistoryService,
     ) -> None:
         self.repository = repository
         self.child_repository = child_repository
         self.growth_analysis = growth_analysis
+        self.growth_trend = growth_trend
+        self.growth_history = growth_history
 
     ####################################################################
     # Helpers
@@ -217,6 +241,52 @@ class GrowthRecordService:
         return self.growth_analysis.analyze_growth_record(
             child=child,
             growth_record=growth_record,
+        )
+
+    async def get_growth_trends(
+        self,
+        child_id: UUID,
+        parent_id: UUID,
+    ) -> GrowthTrendResponse:
+        """
+        Returns longitudinal growth trends for a child.
+        """
+
+        child = await self._get_child(
+            child_id,
+            parent_id,
+        )
+
+        growth_records = await self.repository.get_by_child(
+            child_id,
+        )
+
+        return self.growth_trend.analyse(
+            child=child,
+            growth_records=growth_records,
+        )
+
+    async def get_growth_history(
+        self,
+        child_id: UUID,
+        parent_id: UUID,
+    ) -> GrowthHistoryResponse:
+        """
+        Returns the complete chronological growth history.
+        """
+
+        child = await self._get_child(
+            child_id,
+            parent_id,
+        )
+
+        records = await self.repository.get_by_child(
+            child_id,
+        )
+
+        return self.growth_history.build_history(
+            child=child,
+            growth_records=records,
         )
 
     async def update_growth_record(
