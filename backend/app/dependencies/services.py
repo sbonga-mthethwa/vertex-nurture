@@ -2,12 +2,21 @@ from typing import Annotated
 
 from fastapi import Depends
 
+from app.repositories.vaccination_record_repository import (
+    VaccinationRecordRepository,
+)
+
+from app.services.vaccination_record_service import (
+    VaccinationRecordService,
+)
+
 from app.dependencies.repositories import (
     get_child_repository,
     get_growth_record_repository,
     get_profile_repository,
     get_refresh_token_repository,
     get_user_repository,
+    get_vaccination_record_repository,
 )
 from app.repositories import (
     RefreshTokenRepository,
@@ -54,6 +63,13 @@ from app.services.profile_service import (
 from app.services.system_service import (
     SystemService,
 )
+from app.services.vaccination_schedule_service import VaccinationScheduleService
+from app.services.vaccination_analysis_service import VaccinationAnalysisService
+
+from app.services.vaccination_forecast_service import (
+    VaccinationForecastService,
+)
+
 
 ###############################################################################
 # Singleton Services
@@ -64,6 +80,17 @@ _growth_standard_service = GrowthStandardService()
 _growth_chart_service = GrowthChartService(
     growth_standard_service=_growth_standard_service,
 )
+
+_vaccination_schedule_service = VaccinationScheduleService()
+
+_vaccination_forecast_service = VaccinationForecastService(
+    schedule_service=_vaccination_schedule_service,
+)
+
+_vaccination_analysis_service = VaccinationAnalysisService(
+    schedule_service=_vaccination_schedule_service,
+)
+
 
 ###############################################################################
 # System Services
@@ -264,4 +291,54 @@ async def get_growth_record_service(
         growth_trend=growth_trend,
         growth_history=growth_history,
         growth_chart=growth_chart,
+    )
+
+
+###############################################################################
+# Vaccination Record Service
+###############################################################################
+
+def get_vaccination_schedule_service() -> VaccinationScheduleService:
+    return _vaccination_schedule_service
+
+
+def get_vaccination_analysis_service(
+) -> VaccinationAnalysisService:
+    """
+    Provides the singleton VaccinationAnalysisService.
+    """
+
+    return _vaccination_analysis_service
+
+def get_vaccination_forecast_service(
+) -> VaccinationForecastService:
+    return _vaccination_forecast_service
+
+async def get_vaccination_record_service(
+    repository: Annotated[
+        VaccinationRecordRepository,
+        Depends(get_vaccination_record_repository),
+    ],
+    child_repository: Annotated[
+        ChildRepository,
+        Depends(get_child_repository),
+    ],
+    vaccination_analysis: Annotated[
+        VaccinationAnalysisService,
+        Depends(get_vaccination_analysis_service),
+    ],
+    vaccination_forecast: Annotated[
+        VaccinationForecastService,
+        Depends(get_vaccination_forecast_service),
+    ],
+) -> VaccinationRecordService:
+    """
+    Provides VaccinationRecordService.
+    """
+
+    return VaccinationRecordService(
+        repository=repository,
+        child_repository=child_repository,
+        vaccination_analysis=vaccination_analysis,
+        vaccination_forecast=vaccination_forecast,
     )

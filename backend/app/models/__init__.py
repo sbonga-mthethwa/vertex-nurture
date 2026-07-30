@@ -3,7 +3,8 @@ from .refresh_token import RefreshToken
 from .user import User
 from .user_profile import UserProfile
 from .child import Child
-from app.models.growth_record import GrowthRecord
+from .growth_record import GrowthRecord
+from .vaccination_record import VaccinationRecord
 
 
 __all__ = [
@@ -13,4 +14,5 @@ __all__ = [
     "UserProfile",
     "Child",
     "GrowthRecord",
+    "VaccinationRecord",
 ]

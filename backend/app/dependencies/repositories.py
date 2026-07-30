@@ -19,6 +19,10 @@ from app.repositories.profile_repository import (
     ProfileRepository,
 )
 
+from app.repositories.vaccination_record_repository import (
+    VaccinationRecordRepository,
+)
+
 
 async def get_user_repository(
     db: Annotated[
@@ -83,3 +87,15 @@ async def get_growth_record_repository(
     """
 
     return GrowthRecordRepository(db)
+
+async def get_vaccination_record_repository(
+    db: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> VaccinationRecordRepository:
+    """
+    Provides a VaccinationRecordRepository.
+    """
+
+    return VaccinationRecordRepository(db)

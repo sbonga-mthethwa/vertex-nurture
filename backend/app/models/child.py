@@ -24,7 +24,8 @@ from app.models.base import BaseModel
 if TYPE_CHECKING:
     from app.models.user import User
     from app.models.growth_record import GrowthRecord
-
+    from app.models.vaccination_record import VaccinationRecord
+    
 
 class ChildGender(str, Enum):
     """
@@ -109,6 +110,11 @@ class Child(BaseModel):
     )
 
     growth_records: Mapped[list["GrowthRecord"]] = relationship(
+        back_populates="child",
+        cascade="all, delete-orphan",
+    )
+
+    vaccination_records: Mapped[list["VaccinationRecord"]] = relationship(
         back_populates="child",
         cascade="all, delete-orphan",
     )

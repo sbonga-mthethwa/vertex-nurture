@@ -1,0 +1,151 @@
+{
+  "country": "South Africa",
+  "programme": "Expanded Programme on Immunisation (EPI)",
+  "version": "2025",
+  "vaccines": [
+    {
+      "code": "BCG",
+      "name": "BCG",
+      "description": "Tuberculosis",
+      "age_days": 0,
+      "age_months": 0,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "OPV",
+      "name": "Oral Polio Vaccine",
+      "description": "Polio (Birth Dose)",
+      "age_days": 0,
+      "age_months": 0,
+      "dose_number": 0,
+      "required": true
+    },
+    {
+      "code": "RV1",
+      "name": "Rotavirus",
+      "description": "Rotavirus",
+      "age_days": 42,
+      "age_months": 1,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "DTaP-IPV-Hib-HepB",
+      "name": "Hexavalent Vaccine",
+      "description": "Diphtheria, Tetanus, Pertussis, Polio, Hib, Hepatitis B",
+      "age_days": 42,
+      "age_months": 1,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "PCV",
+      "name": "Pneumococcal Conjugate Vaccine",
+      "description": "Pneumococcal Disease",
+      "age_days": 42,
+      "age_months": 1,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "RV2",
+      "name": "Rotavirus",
+      "description": "Rotavirus",
+      "age_days": 70,
+      "age_months": 2,
+      "dose_number": 2,
+      "required": true
+    },
+    {
+      "code": "DTaP-IPV-Hib-HepB",
+      "name": "Hexavalent Vaccine",
+      "description": "Second Dose",
+      "age_days": 70,
+      "age_months": 2,
+      "dose_number": 2,
+      "required": true
+    },
+    {
+      "code": "PCV",
+      "name": "Pneumococcal Conjugate Vaccine",
+      "description": "Second Dose",
+      "age_days": 70,
+      "age_months": 2,
+      "dose_number": 2,
+      "required": true
+    },
+    {
+      "code": "DTaP-IPV-Hib-HepB",
+      "name": "Hexavalent Vaccine",
+      "description": "Third Dose",
+      "age_days": 98,
+      "age_months": 3,
+      "dose_number": 3,
+      "required": true
+    },
+    {
+      "code": "PCV",
+      "name": "Pneumococcal Conjugate Vaccine",
+      "description": "Booster",
+      "age_days": 270,
+      "age_months": 9,
+      "dose_number": 3,
+      "required": true
+    },
+    {
+      "code": "MCV",
+      "name": "Measles Vaccine",
+      "description": "Measles",
+      "age_days": 180,
+      "age_months": 6,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "MCV",
+      "name": "Measles Vaccine",
+      "description": "Second Dose",
+      "age_days": 360,
+      "age_months": 12,
+      "dose_number": 2,
+      "required": true
+    },
+    {
+      "code": "DTaP-IPV",
+      "name": "DTaP-IPV Booster",
+      "description": "Booster",
+      "age_days": 540,
+      "age_months": 18,
+      "dose_number": 4,
+      "required": true
+    },
+    {
+      "code": "Td",
+      "name": "Tetanus & Diphtheria",
+      "description": "School Booster",
+      "age_days": 2190,
+      "age_months": 72,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "HPV",
+      "name": "Human Papillomavirus Vaccine",
+      "description": "Girls School Programme",
+      "age_days": 3285,
+      "age_months": 108,
+      "dose_number": 1,
+      "required": true
+    },
+    {
+      "code": "HPV",
+      "name": "Human Papillomavirus Vaccine",
+      "description": "Second Dose",
+      "age_days": 3465,
+      "age_months": 114,
+      "dose_number": 2,
+      "required": true
+    }
+  ]
+}
