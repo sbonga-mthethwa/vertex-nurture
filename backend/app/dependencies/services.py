@@ -4,6 +4,7 @@ from fastapi import Depends
 
 from app.dependencies.repositories import (
     get_child_repository,
+    get_device_repository,
     get_growth_record_repository,
     get_profile_repository,
     get_refresh_token_repository,
@@ -19,6 +20,10 @@ from app.repositories import (
 
 from app.repositories.child_repository import (
     ChildRepository,
+)
+
+from app.repositories.device_repository import (
+    DeviceRepository,
 )
 
 from app.repositories.growth_record_repository import (
@@ -45,6 +50,10 @@ from app.services import (
 
 from app.services.child_service import (
     ChildService,
+)
+
+from app.services.device_service import (
+    DeviceService,
 )
 
 from app.services.growth_analysis_service import (
@@ -79,10 +88,6 @@ from app.services.system_service import (
     SystemService,
 )
 
-from app.services.vaccination_schedule_service import (
-    VaccinationScheduleService,
-)
-
 from app.services.vaccination_analysis_service import (
     VaccinationAnalysisService,
 )
@@ -97,6 +102,10 @@ from app.services.vaccination_record_service import (
 
 from app.services.vaccination_reminder_service import (
     VaccinationReminderService,
+)
+
+from app.services.vaccination_schedule_service import (
+    VaccinationScheduleService,
 )
 
 
@@ -322,11 +331,6 @@ async def get_growth_record_service(
         growth_chart=growth_chart,
     )
 
-
-###############################################################################
-# Vaccination Record Service
-###############################################################################
-
 def get_vaccination_schedule_service() -> VaccinationScheduleService:
     return _vaccination_schedule_service
 
@@ -400,4 +404,22 @@ async def get_vaccination_reminder_service(
         child_repository=child_repository,
         vaccination_repository=vaccination_record_repository,
         vaccination_forecast=vaccination_forecast_service,
+    )
+
+###############################################################################
+# Vaccination Notification Service
+###############################################################################
+
+def get_device_service(
+    repository: Annotated[
+        DeviceRepository,
+        Depends(get_device_repository),
+    ],
+) -> DeviceService:
+    """
+    Returns the device service.
+    """
+
+    return DeviceService(
+        repository=repository,
     )

@@ -9,6 +9,7 @@ from .user_service import UserService
 from .vaccination_reminder_service import (
     VaccinationReminderService,
 )
+from .device_service import DeviceService
 
 
 __all__ = [
@@ -21,4 +22,5 @@ __all__ = [
     "RefreshTokenService",
     "UserService",
     "VaccinationReminderService",
+    "DeviceService",
 ]

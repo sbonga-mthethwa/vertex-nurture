@@ -12,6 +12,8 @@ from .vaccination_reminders import (
 )
 from . import vaccination_reminders
 
+from app.api.routers.devices import router as devices_router
+
 
 __all__ = [
     "auth_router",
@@ -23,4 +25,5 @@ __all__ = [
     "vaccination_records_router",
     "vaccination_reminders",
     "vaccination_reminders_router",
+    "devices_router",
 ]

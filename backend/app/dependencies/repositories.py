@@ -24,6 +24,7 @@ from app.repositories.vaccination_record_repository import (
 from app.repositories.vaccination_reminder_repository import (
     VaccinationReminderRepository,
 )
+from app.repositories.device_repository import DeviceRepository
 
 
 async def get_user_repository(
@@ -114,5 +115,19 @@ async def get_vaccination_reminder_repository(
     """
 
     return VaccinationReminderRepository(
+        db,
+    )
+
+def get_device_repository(
+    db: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> DeviceRepository:
+    """
+    Returns the device repository.
+    """
+
+    return DeviceRepository(
         db,
     )
