@@ -21,6 +21,9 @@ from app.services.reminder_template_service import (
     ReminderTemplateService,
 )
 
+from app.notifications.dispatcher import NotificationDispatcher
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -53,10 +56,14 @@ class VaccinationReminderJob:
                 session,
             )
 
-            delivery_service = ReminderDeliveryService(
-                repository=repository,
+            dispatcher = NotificationDispatcher(
                 provider_factory=self._provider_factory,
                 template_service=self._template_service,
+            )
+
+            delivery_service = ReminderDeliveryService(
+                repository=repository,
+                dispatcher=dispatcher,
             )
 
             statistics = await delivery_service.deliver_due_reminders()

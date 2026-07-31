@@ -6,17 +6,15 @@ from app.models.vaccination_reminder import (
     ReminderStatus,
     VaccinationReminder,
 )
-
-from app.notifications.factory import NotificationProviderFactory
 from app.repositories.vaccination_reminder_repository import (
     VaccinationReminderRepository,
 )
 from app.services.reminder_delivery_models import (
     ReminderDeliveryStatistics,
 )
-from app.services.reminder_template_service import (
-    ReminderTemplateService,
-)
+
+from app.notifications.dispatcher import NotificationDispatcher
+
 
 logger = logging.getLogger(__name__)
 
@@ -40,13 +38,12 @@ class ReminderDeliveryService:
     def __init__(
         self,
         repository: VaccinationReminderRepository,
-        provider_factory: NotificationProviderFactory,
-        template_service: ReminderTemplateService,
+        dispatcher: NotificationDispatcher,
     ) -> None:
 
         self._repository = repository
-        self._provider_factory = provider_factory
-        self._template_service = template_service
+        self._dispatcher = dispatcher
+
 
     async def deliver_due_reminders(
         self,
@@ -149,19 +146,8 @@ class ReminderDeliveryService:
         Deliver a single reminder.
         """
 
-        message = self._template_service.build_message(
-            vaccine_name=reminder.vaccine_name,
-            reminder_type=reminder.reminder_type.value,
-        )
-
-        provider = self._provider_factory.get_provider(
-            reminder.channel,
-        )
-
-        await provider.send(
-            recipient=str(reminder.child_id),
-            title=message.title,
-            message=message.body,
+        await self._dispatcher.send_vaccination_reminder(
+            reminder,
         )
 
         await self._repository.mark_sent(

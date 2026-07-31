@@ -6,6 +6,7 @@ from .child import Child
 from .growth_record import GrowthRecord
 from .vaccination_record import VaccinationRecord
 from .vaccination_reminder import VaccinationReminder
+from app.models.device import Device
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     "GrowthRecord",
     "VaccinationRecord",
     "VaccinationReminder",
+    "Device",
 ]

@@ -11,6 +11,8 @@ from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
 
+from app.models.device import Device
+
 if TYPE_CHECKING:
     from app.models.refresh_token import RefreshToken
     from app.models.user_profile import UserProfile
@@ -78,5 +80,10 @@ class User(BaseModel):
 
     children: Mapped[list["Child"]] = relationship(
         back_populates="parent",
+        cascade="all, delete-orphan",
+    )
+
+    devices: Mapped[list["Device"]] = relationship(
+        back_populates="user",
         cascade="all, delete-orphan",
     )

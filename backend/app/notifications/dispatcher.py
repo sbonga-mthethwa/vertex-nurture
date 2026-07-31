@@ -4,6 +4,8 @@ from app.models.vaccination_reminder import VaccinationReminder
 from app.notifications.factory import NotificationProviderFactory
 from app.services.reminder_template_service import ReminderTemplateService
 
+from app.notifications.models import NotificationRequest
+
 
 class NotificationDispatcher:
     """
@@ -45,8 +47,12 @@ class NotificationDispatcher:
             reminder.channel,
         )
 
-        await provider.send(
+        request = NotificationRequest(
             recipient=str(reminder.child_id),
             title=message.title,
             message=message.body,
+        )
+
+        await provider.send(
+            request,
         )
