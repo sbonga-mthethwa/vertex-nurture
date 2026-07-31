@@ -18,9 +18,11 @@ from app.repositories.growth_record_repository import (
 from app.repositories.profile_repository import (
     ProfileRepository,
 )
-
 from app.repositories.vaccination_record_repository import (
     VaccinationRecordRepository,
+)
+from app.repositories.vaccination_reminder_repository import (
+    VaccinationReminderRepository,
 )
 
 
@@ -99,3 +101,18 @@ async def get_vaccination_record_repository(
     """
 
     return VaccinationRecordRepository(db)
+
+
+async def get_vaccination_reminder_repository(
+    db: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> VaccinationReminderRepository:
+    """
+    Provides a VaccinationReminderRepository.
+    """
+
+    return VaccinationReminderRepository(
+        db,
+    )

@@ -172,6 +172,7 @@ async def get_vaccination_analysis(
         message="Vaccination analysis retrieved successfully.",
     )
 
+
 @router.get(
     "/forecast",
     response_model=None,

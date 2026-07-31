@@ -6,6 +6,9 @@ from .jwt_service import JWTService
 from .password_service import PasswordService
 from .refresh_token_service import RefreshTokenService
 from .user_service import UserService
+from .vaccination_reminder_service import (
+    VaccinationReminderService,
+)
 
 
 __all__ = [
@@ -17,4 +20,5 @@ __all__ = [
     "PasswordService",
     "RefreshTokenService",
     "UserService",
+    "VaccinationReminderService",
 ]

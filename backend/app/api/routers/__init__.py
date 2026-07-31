@@ -7,6 +7,10 @@ from .growth_records import router as growth_records_router
 from app.api.routers.vaccination_records import (
     router as vaccination_records_router,
 )
+from .vaccination_reminders import (
+    router as vaccination_reminders_router,
+)
+from . import vaccination_reminders
 
 
 __all__ = [
@@ -17,4 +21,6 @@ __all__ = [
     "children_router",
     "growth_records_router",
     "vaccination_records_router",
+    "vaccination_reminders",
+    "vaccination_reminders_router",
 ]

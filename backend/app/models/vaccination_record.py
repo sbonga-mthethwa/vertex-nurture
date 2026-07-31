@@ -17,6 +17,7 @@ from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 
 from app.models.base import BaseModel
+from app.models.vaccination_reminder import VaccinationReminder
 
 if TYPE_CHECKING:
     from app.models.child import Child
@@ -93,4 +94,8 @@ class VaccinationRecord(BaseModel):
 
     child: Mapped["Child"] = relationship(
         back_populates="vaccination_records",
+    )
+
+    reminders: Mapped[list["VaccinationReminder"]] = relationship(
+        back_populates="vaccination_record",
     )

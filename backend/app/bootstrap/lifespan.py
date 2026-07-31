@@ -2,6 +2,11 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from app.bootstrap.scheduler import (
+    register_jobs,
+    start_scheduler,
+    stop_scheduler,
+)
 from app.core.config import settings
 from app.core.logging import logger
 
@@ -19,22 +24,18 @@ async def lifespan(app: FastAPI):
         environment=settings.APP_ENV,
     )
 
-    # Future startup tasks:
-    # - Connect to PostgreSQL
-    # - Connect to Redis
-    # - Configure monitoring
-    # - Load feature flags
-    # - Initialize background workers
+    # Register scheduled jobs
+    register_jobs()
+
+    # Start APScheduler
+    start_scheduler()
 
     yield
+
+    # Stop APScheduler
+    stop_scheduler()
 
     logger.info(
         "application_stopping",
         application=settings.APP_NAME,
     )
-
-    # Future shutdown tasks:
-    # - Close PostgreSQL connections
-    # - Close Redis connections
-    # - Stop background workers
-    # - Flush logs

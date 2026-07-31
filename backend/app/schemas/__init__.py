@@ -56,4 +56,9 @@ __all__ = [
     "CreateGrowthRecordRequest",
     "UpdateGrowthRecordRequest",
     "GrowthRecordResponse",
+
+    # Vaccination Reminders
+    "CreateVaccinationReminderRequest",
+    "UpdateVaccinationReminderRequest",
+    "VaccinationReminderResponse", 
 ]

@@ -2,7 +2,9 @@ from .base import BaseRepository
 from .refresh_token_repository import RefreshTokenRepository
 from .user_repository import UserRepository
 from .child_repository import ChildRepository
-from app.repositories.growth_record_repository import GrowthRecordRepository
+from .growth_record_repository import GrowthRecordRepository
+from .vaccination_record_repository import VaccinationRecordRepository
+from .vaccination_reminder_repository import VaccinationReminderRepository
 
 
 __all__ = [
@@ -11,4 +13,6 @@ __all__ = [
     "RefreshTokenRepository",
     "ChildRepository",
     "GrowthRecordRepository",
+    "VaccinationRecordRepository",
+    "VaccinationReminderRepository",
 ]

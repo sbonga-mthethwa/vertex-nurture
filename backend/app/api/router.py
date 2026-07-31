@@ -8,6 +8,7 @@ from app.api.routers import (
     system_router,
     users_router,
     vaccination_records_router,
+    vaccination_reminders_router,
 )
 
 router = APIRouter()
@@ -19,3 +20,4 @@ router.include_router(profile_router)
 router.include_router(children_router)
 router.include_router(growth_records_router)
 router.include_router(vaccination_records_router)
+router.include_router(vaccination_reminders_router)

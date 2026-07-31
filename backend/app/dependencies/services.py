@@ -2,14 +2,6 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from app.repositories.vaccination_record_repository import (
-    VaccinationRecordRepository,
-)
-
-from app.services.vaccination_record_service import (
-    VaccinationRecordService,
-)
-
 from app.dependencies.repositories import (
     get_child_repository,
     get_growth_record_repository,
@@ -17,57 +9,94 @@ from app.dependencies.repositories import (
     get_refresh_token_repository,
     get_user_repository,
     get_vaccination_record_repository,
+    get_vaccination_reminder_repository,
 )
+
 from app.repositories import (
     RefreshTokenRepository,
     UserRepository,
 )
+
 from app.repositories.child_repository import (
     ChildRepository,
 )
+
 from app.repositories.growth_record_repository import (
     GrowthRecordRepository,
 )
+
 from app.repositories.profile_repository import (
     ProfileRepository,
 )
+
+from app.repositories.vaccination_record_repository import (
+    VaccinationRecordRepository,
+)
+
+from app.repositories.vaccination_reminder_repository import (
+    VaccinationReminderRepository,
+)
+
 from app.services import (
     AuthenticationService,
     RefreshTokenService,
     UserService,
 )
+
 from app.services.child_service import (
     ChildService,
 )
+
 from app.services.growth_analysis_service import (
     GrowthAnalysisService,
 )
+
 from app.services.growth_chart_service import (
     GrowthChartService,
 )
+
 from app.services.growth_history_service import (
     GrowthHistoryService,
 )
+
 from app.services.growth_record_service import (
     GrowthRecordService,
 )
+
 from app.services.growth_standard_service import (
     GrowthStandardService,
 )
+
 from app.services.growth_trend_service import (
     GrowthTrendService,
 )
+
 from app.services.profile_service import (
     ProfileService,
 )
+
 from app.services.system_service import (
     SystemService,
 )
-from app.services.vaccination_schedule_service import VaccinationScheduleService
-from app.services.vaccination_analysis_service import VaccinationAnalysisService
+
+from app.services.vaccination_schedule_service import (
+    VaccinationScheduleService,
+)
+
+from app.services.vaccination_analysis_service import (
+    VaccinationAnalysisService,
+)
 
 from app.services.vaccination_forecast_service import (
     VaccinationForecastService,
+)
+
+from app.services.vaccination_record_service import (
+    VaccinationRecordService,
+)
+
+from app.services.vaccination_reminder_service import (
+    VaccinationReminderService,
 )
 
 
@@ -341,4 +370,34 @@ async def get_vaccination_record_service(
         child_repository=child_repository,
         vaccination_analysis=vaccination_analysis,
         vaccination_forecast=vaccination_forecast,
+    )
+
+
+async def get_vaccination_reminder_service(
+    reminder_repository: Annotated[
+        VaccinationReminderRepository,
+        Depends(get_vaccination_reminder_repository),
+    ],
+    child_repository: Annotated[
+        ChildRepository,
+        Depends(get_child_repository),
+    ],
+    vaccination_record_repository: Annotated[
+        VaccinationRecordRepository,
+        Depends(get_vaccination_record_repository),
+    ],
+    vaccination_forecast_service: Annotated[
+        VaccinationForecastService,
+        Depends(get_vaccination_forecast_service),
+    ],
+) -> VaccinationReminderService:
+    """
+    Provides a VaccinationReminderService.
+    """
+
+    return VaccinationReminderService(
+        repository=reminder_repository,
+        child_repository=child_repository,
+        vaccination_repository=vaccination_record_repository,
+        vaccination_forecast=vaccination_forecast_service,
     )

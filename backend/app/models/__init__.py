@@ -5,6 +5,7 @@ from .user_profile import UserProfile
 from .child import Child
 from .growth_record import GrowthRecord
 from .vaccination_record import VaccinationRecord
+from .vaccination_reminder import VaccinationReminder
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "Child",
     "GrowthRecord",
     "VaccinationRecord",
+    "VaccinationReminder",
 ]
