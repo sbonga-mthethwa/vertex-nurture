@@ -15,6 +15,15 @@ from app.core.logging import logger
 async def lifespan(app: FastAPI):
     """
     Application startup and shutdown lifecycle.
+
+    Startup sequence:
+    1. Register scheduled jobs
+    2. Start APScheduler
+    3. Application ready
+
+    Shutdown sequence:
+    1. Stop APScheduler
+    2. Shutdown application
     """
 
     logger.info(
@@ -30,12 +39,13 @@ async def lifespan(app: FastAPI):
     # Start APScheduler
     start_scheduler()
 
-    yield
+    try:
+        yield
+    finally:
+        # Stop APScheduler even if an unexpected exception occurs
+        stop_scheduler()
 
-    # Stop APScheduler
-    stop_scheduler()
-
-    logger.info(
-        "application_stopping",
-        application=settings.APP_NAME,
-    )
+        logger.info(
+            "application_stopping",
+            application=settings.APP_NAME,
+        )
