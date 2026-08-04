@@ -5,6 +5,7 @@ from .child_repository import ChildRepository
 from .growth_record_repository import GrowthRecordRepository
 from .vaccination_record_repository import VaccinationRecordRepository
 from .vaccination_reminder_repository import VaccinationReminderRepository
+from .dashboard_repository import DashboardRepository
 
 
 __all__ = [
@@ -15,4 +16,5 @@ __all__ = [
     "GrowthRecordRepository",
     "VaccinationRecordRepository",
     "VaccinationReminderRepository",
+    "DashboardRepository",
 ]

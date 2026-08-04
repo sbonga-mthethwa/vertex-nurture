@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int = 5432
     POSTGRES_DB: str = "vertex_nurture"
     POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = "postgres"
+    POSTGRES_PASSWORD: str = "Myname1sbonga!"
 
     DATABASE_ECHO: bool = False
 

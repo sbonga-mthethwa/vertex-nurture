@@ -108,6 +108,18 @@ from app.services.vaccination_schedule_service import (
     VaccinationScheduleService,
 )
 
+from app.dependencies.repositories import (
+    get_dashboard_repository,
+)
+
+from app.repositories.dashboard_repository import (
+    DashboardRepository,
+)
+
+from app.services.dashboard_service import (
+    DashboardService,
+)
+
 
 ###############################################################################
 # Singleton Services
@@ -284,6 +296,25 @@ async def get_child_service(
 
     return ChildService(
         repository,
+    )
+
+
+###############################################################################
+# Dashboard Service
+###############################################################################
+
+async def get_dashboard_service(
+    repository: Annotated[
+        DashboardRepository,
+        Depends(get_dashboard_repository),
+    ],
+) -> DashboardService:
+    """
+    Provides DashboardService.
+    """
+
+    return DashboardService(
+        repository=repository,
     )
 
 

@@ -8,6 +8,7 @@ from fastapi.security import HTTPBearer
 
 from app.core.exceptions import AuthenticationError
 from app.dependencies.repositories import get_user_repository
+from app.models.user import User
 from app.repositories import UserRepository
 from app.services.jwt_service import JWTService
 
@@ -23,7 +24,7 @@ async def get_current_user(
         UserRepository,
         Depends(get_user_repository),
     ],
-):
+) -> User:
     """
     Returns the authenticated user.
     """
@@ -32,20 +33,26 @@ async def get_current_user(
 
     jwt_service = JWTService()
 
-    payload = jwt_service.decode_access_token(token)
+    payload = jwt_service.decode_access_token(
+        token,
+    )
 
-    user_id = payload.get("sub")
+    user_id = payload.get(
+        "sub",
+    )
 
     if user_id is None:
         raise AuthenticationError(
-            "Invalid token."
+            "Invalid token.",
         )
 
-    user = await repository.get_by_id(UUID(user_id))
+    user = await repository.get_by_id(
+        UUID(user_id),
+    )
 
     if user is None:
         raise AuthenticationError(
-            "User no longer exists."
+            "User no longer exists.",
         )
 
     return user

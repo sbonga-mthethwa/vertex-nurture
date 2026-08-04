@@ -10,6 +10,7 @@ from app.api.routers import (
     vaccination_records_router,
     vaccination_reminders_router,
     devices_router,
+    dashboard_router
 )
 
 router = APIRouter()
@@ -23,3 +24,4 @@ router.include_router(growth_records_router)
 router.include_router(vaccination_records_router)
 router.include_router(vaccination_reminders_router)
 router.include_router(devices_router)
+router.include_router(dashboard_router)

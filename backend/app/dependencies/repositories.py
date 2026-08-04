@@ -26,6 +26,10 @@ from app.repositories.vaccination_reminder_repository import (
 )
 from app.repositories.device_repository import DeviceRepository
 
+from app.repositories.dashboard_repository import (
+    DashboardRepository,
+)
+
 
 async def get_user_repository(
     db: Annotated[
@@ -129,5 +133,19 @@ def get_device_repository(
     """
 
     return DeviceRepository(
+        db,
+    )
+
+async def get_dashboard_repository(
+    db: Annotated[
+        AsyncSession,
+        Depends(get_database),
+    ],
+) -> DashboardRepository:
+    """
+    Provides a DashboardRepository.
+    """
+
+    return DashboardRepository(
         db,
     )
